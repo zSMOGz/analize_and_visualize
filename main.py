@@ -1,7 +1,6 @@
 import data_download as dd
-import data_printing as dp
 import data_processing as dps
-import data_plotting as dplt
+import data_showing as ds
 
 
 def main():
@@ -23,12 +22,13 @@ def main():
 
     stock_data = dps.add_moving_average(stock_data)
 
-    dplt.create_and_save_plot(stock_data,
-                              ticker,
-                              period)
+    ds.create_and_save_plot(stock_data,
+                            ticker,
+                            period)
 
-    dp.display_average_close_price(stock_data,
+    ds.display_average_close_price(stock_data,
                                    period)
+
 
 if __name__ == "__main__":
     main()

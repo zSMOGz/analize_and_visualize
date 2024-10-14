@@ -6,6 +6,6 @@ def add_moving_average(data,
     data['Moving_Average'] = data['Close'].rolling(window=window_size).mean()
     return data
 
-def get_average_price(data: DataFrame):
-    return data['Close'].sum() / data['Close'].count()
 
+def get_average_close_price(data: DataFrame):
+    return data['Close'].mean()

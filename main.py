@@ -1,5 +1,6 @@
 import data_download as dd
-import data_processing as dp
+import data_printing as dp
+import data_processing as dps
 import data_plotting as dplt
 
 
@@ -20,15 +21,14 @@ def main():
     stock_data = dd.fetch_stock_data(ticker,
                                      period)
 
-    stock_data = dp.add_moving_average(stock_data)
+    stock_data = dps.add_moving_average(stock_data)
 
     dplt.create_and_save_plot(stock_data,
                               ticker,
                               period)
 
-    print(f"Средняя цена закрытия акции: {dp.get_average_price(stock_data)}"
-          + f"за период {period}")
-
+    dp.display_average_close_price(stock_data,
+                                   period)
 
 if __name__ == "__main__":
     main()

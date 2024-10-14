@@ -1,8 +1,13 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
+from data_processing import get_average_close_price
 
-def create_and_save_plot(data, ticker, period, filename=None):
+
+def create_and_save_plot(data,
+                         ticker,
+                         period,
+                         filename=None):
     plt.figure(figsize=(10, 6))
 
     if 'Date' not in data:
@@ -38,3 +43,10 @@ def create_and_save_plot(data, ticker, period, filename=None):
 
     plt.savefig(filename)
     print(f"График сохранен как {filename}")
+
+
+def display_average_close_price(stock_data,
+                                period):
+    average_price = round(get_average_close_price(stock_data), 2)
+    print(f"Среднее значение цены акции {average_price} "
+          + f"за {period} \n")

@@ -8,7 +8,8 @@ class PriceMachine:
         self.result = ''
         self.name_length = 0
     
-    def load_prices(self, file_path=''):
+    def load_prices(self,
+                    file_path=''):
         """
             Сканирует указанный каталог. Ищет файлы со словом price в
             названии.
@@ -69,8 +70,8 @@ class PriceMachine:
         self.data.sort()
         return count_files, count_lines
 
-    @staticmethod
-    def _search_product_price_weight(headers):
+    def _search_product_price_weight(self,
+                                     headers):
         """
             Возвращает номера столбцов
         """
@@ -91,7 +92,8 @@ class PriceMachine:
                 weight_number = index
         return product_name_number, price_number, weight_number
 
-    def export_to_html(self, fname='output.html'):
+    def export_to_html(self,
+                       file_name='output.html'):
         result = '''
         <!DOCTYPE html>
         <html>
@@ -118,11 +120,11 @@ class PriceMachine:
             result += f'<td>{weight}</td>' 
             result += f'<td>{file_name}</td>' 
             result += f'<td>{value}</td>' 
-            result += '</tr>\n' 
-        result += '</tbody>'
+            result += '</tr>\n'
         result += '</table>'
-        print(fname)
-        with open(fname, 'w') as f:
+        result += '</body>'
+        print(file_name)
+        with open(file_name, 'w') as f:
             f.write(result)
         return 'ok'
     
@@ -136,7 +138,8 @@ class PriceMachine:
 pm = PriceMachine()
 print(pm.load_prices())
 while 1:
-    command = input('Введите exit для выхода или часть названия для поиска: \n')
+    command = input('Введите exit для выхода или часть названия '
+                    + 'для поиска: \n')
     if command == 'exit':
         break
     else:

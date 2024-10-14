@@ -1,4 +1,5 @@
 import data_download as dd
+import data_processing as dp
 import data_plotting as dplt
 
 
@@ -16,14 +17,17 @@ def main():
     period = input("Введите период для данных (например, '1mo' для одного "
                    + "месяца): ")
 
-    # Fetch stock data
-    stock_data = dd.fetch_stock_data(ticker, period)
+    stock_data = dd.fetch_stock_data(ticker,
+                                     period)
 
-    # Add moving average to the data
-    stock_data = dd.add_moving_average(stock_data)
+    stock_data = dp.add_moving_average(stock_data)
 
-    # Plot the data
-    dplt.create_and_save_plot(stock_data, ticker, period)
+    dplt.create_and_save_plot(stock_data,
+                              ticker,
+                              period)
+
+    print(f"Средняя цена закрытия акции: {dp.get_average_price(stock_data)}"
+          + f"за период {period}")
 
 
 if __name__ == "__main__":

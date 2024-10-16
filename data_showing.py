@@ -1,13 +1,25 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from data_processing import get_average_close_price
+from plyer import notification
+
+from data_processing import (get_average_close_price,
+                             get_delta_close_price)
 
 
 def create_and_save_plot(data,
                          ticker,
                          period,
                          filename=None):
+    """
+    Создает и сохраняет график цены акции за указанный период.
+
+    Parameters:
+        data: Данные по акциям;
+        ticker: Тикер акции;
+        period: Период выборки данных по акциям;
+        filename: Имя файла, в который сохранится график.
+    """
     plt.figure(figsize=(10, 6))
 
     if 'Date' not in data:
@@ -47,6 +59,33 @@ def create_and_save_plot(data,
 
 def display_average_close_price(stock_data,
                                 period):
+    """
+    Отображает среднее значение цены акции за указанный период.
+
+    Parameters:
+        stock_data: Исходные данные по акциям;
+        period: Период, за который необходимо отобразить среднее.
+    """
     average_price = round(get_average_close_price(stock_data), 2)
     print(f"Среднее значение цены акции {average_price} "
           + f"за {period} \n")
+
+
+def notify_if_strong_fluctuation(data,
+                                 threshold: float):
+    """
+    Уведомляет пользователя о колебаниях цены акций более чем на
+        указанный процент.
+
+    Parameters:
+        data: Данные по акциям;
+        threshold(float): Пороговое значение, при преодолении которого,
+            отправляется уведомление.
+    """
+    delta_close_price = round(get_delta_close_price(data), 2)
+
+    if delta_close_price > threshold:
+        message = f"Колебания цены акции более чем на {delta_close_price}"
+        notification.notify(message=message,
+                            title='Зафиксировано колебание цены акций')
+        print(message)

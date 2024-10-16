@@ -19,15 +19,19 @@ def main():
 
     stock_data = dd.fetch_stock_data(ticker,
                                      period)
+    if (stock_data is not None
+            and not stock_data.empty):
+        stock_data = dps.add_moving_average(stock_data)
 
-    stock_data = dps.add_moving_average(stock_data)
+        ds.create_and_save_plot(stock_data,
+                                ticker,
+                                period)
 
-    ds.create_and_save_plot(stock_data,
-                            ticker,
-                            period)
+        ds.display_average_close_price(stock_data,
+                                       period)
 
-    ds.display_average_close_price(stock_data,
-                                   period)
+        ds.notify_if_strong_fluctuation(stock_data,
+                                        1.0)
 
 
 if __name__ == "__main__":

@@ -1,9 +1,14 @@
+import logging
+
 import data_download as dd
 import data_processing as dps
 import data_showing as ds
 
 
 def main():
+    logging.basicConfig(filename='analize_and_visualize.log',
+                        level=logging.INFO)
+
     print("Добро пожаловать в инструмент получения и построения графиков"
           + " биржевых данных.")
     print("Вот несколько примеров биржевых тикеров, которые вы можете "
@@ -32,6 +37,9 @@ def main():
 
         ds.notify_if_strong_fluctuation(stock_data,
                                         1.0)
+    else:
+        logging.info(f"Не удалось получить данные по тикеру {ticker}"
+                     + f" за период {period}")
 
 
 if __name__ == "__main__":

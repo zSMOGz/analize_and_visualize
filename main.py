@@ -1,13 +1,18 @@
 import logging
 
 import data_download as dd
+import data_upload as du
 import data_processing as dps
 import data_showing as ds
 
+CSV_FILE_NAME = 'data.csv'
+
 
 def main():
-    logging.basicConfig(filename='analize_and_visualize.log',
+    logging.basicConfig(filename='analyze_and_visualize_info.log',
                         level=logging.INFO)
+    logging.basicConfig(filename='analyze_and_visualize_warning.log',
+                        level=logging.WARNING)
 
     print("Добро пожаловать в инструмент получения и построения графиков"
           + " биржевых данных.")
@@ -37,6 +42,9 @@ def main():
 
         ds.notify_if_strong_fluctuation(stock_data,
                                         1.0)
+
+        du.export_data_to_csv(stock_data,
+                              CSV_FILE_NAME)
     else:
         logging.info(f"Не удалось получить данные по тикеру {ticker}"
                      + f" за период {period}")

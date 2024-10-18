@@ -10,9 +10,11 @@ CSV_FILE_NAME = 'data.csv'
 
 def main():
     logging.basicConfig(filename='analyze_and_visualize_info.log',
-                        level=logging.INFO)
+                        level=logging.INFO,
+                        encoding='utf-8')
     logging.basicConfig(filename='analyze_and_visualize_warning.log',
-                        level=logging.WARNING)
+                        level=logging.WARNING,
+                        encoding='utf-8')
 
     print("Добро пожаловать в инструмент получения и построения графиков"
           + " биржевых данных.")
@@ -44,7 +46,7 @@ def main():
                                         1.0)
 
         du.export_data_to_csv(stock_data,
-                              CSV_FILE_NAME)
+                              f"{ticker}_{period}_{CSV_FILE_NAME}")
     else:
         logging.info(f"Не удалось получить данные по тикеру {ticker}"
                      + f" за период {period}")

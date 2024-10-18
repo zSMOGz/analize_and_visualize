@@ -16,5 +16,5 @@ def export_data_to_csv(data: DataFrame,
     """
     result_save = data.to_csv(filename,
                               index=False)
-    if result_save is None:
+    if result_save is not None:
         warning(f"Ошибка при экспорте данных в csv: {filename}")

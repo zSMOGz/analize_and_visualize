@@ -35,6 +35,9 @@ def main():
             and not stock_data.empty):
         stock_data = dps.add_moving_average(stock_data)
 
+        dps.get_rsi(stock_data)
+        dps.get_macd(stock_data)
+
         ds.create_and_save_plot(stock_data,
                                 ticker,
                                 period)

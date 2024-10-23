@@ -1,6 +1,9 @@
 import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 import pandas as pd
+import numpy as np
 
+from plotly.subplots import make_subplots
 from plyer import notification
 
 from data_processing import (get_average_close_price,
@@ -20,17 +23,21 @@ def create_and_save_plot(data,
         period: Период выборки данных по акциям;
         filename: Имя файла, в который сохранится график.
     """
-    plt.figure(figsize=(10, 6))
+    fig, axes = plt.subplots(3,
+                             figsize=(10, 6))
 
     if 'Date' not in data:
         if pd.api.types.is_datetime64_any_dtype(data.index):
             dates = data.index.to_numpy()
-            plt.plot(dates,
-                     data['Close'].values,
-                     label='Close Price')
-            plt.plot(dates,
-                     data['Moving_Average'].values,
-                     label='Moving Average')
+            axes[0].plot(
+                dates,
+                data['Close'].values,
+                label='Close Price')
+
+            axes[0].plot(
+                dates,
+                data['Moving_Average'].values,
+                label='Moving Average')
         else:
             print("Информация о дате отсутствует или не имеет "
                   + "распознаваемого формата.")
@@ -38,17 +45,55 @@ def create_and_save_plot(data,
     else:
         if not pd.api.types.is_datetime64_any_dtype(data['Date']):
             data['Date'] = pd.to_datetime(data['Date'])
-        plt.plot(data['Date'],
-                 data['Close'],
-                 label='Close Price')
-        plt.plot(data['Date'],
-                 data['Moving_Average'],
-                 label='Moving Average')
 
-    plt.title(f"{ticker} Цена акций с течением времени")
-    plt.xlabel("Дата")
-    plt.ylabel("Цена")
-    plt.legend()
+        axes[0].plot(
+            data['Date'],
+            data['Close'].values,
+            label='Close Price')
+
+        axes[0].plot(
+            data['Date'],
+            data['Moving_Average'].values,
+            label='Moving Average')
+
+        axes[0].title(f"{ticker} Цена акций с течением времени")
+        axes[0].xlabel("Дата")
+        axes[0].ylabel("Цена")
+        axes[0].legend()
+
+    if data['RSI_14'] is not None:
+        axes[1].plot(
+            data.index,
+            data['RSI_14'].values,
+            label='RSI'
+        )
+        # Add overbought/oversold
+        axes[1].axhline(y=30,
+                        color='#ff0000',
+                        linestyle='dashed')
+        axes[1].axhline(y=70,
+                        color='#078610',
+                        linestyle='dashed')
+
+        axes[1].set_xlabel("Дата")
+        axes[1].set_ylabel("RSI")
+
+        axes[1].legend()
+
+    if data['MACD_1_3_2'] is not None:
+        axes[2].plot(
+            data.index,
+            data['MACD_1_3_2'].values,
+            label='MACD',
+            color='#ff9900'
+        )
+        axes[2].plot(
+            data.index,
+            data['MACDs_1_3_2'].values,
+            label='Сигнальная линия',
+            color='#000000'
+        )
+        axes[2].legend()
 
     if filename is None:
         filename = f"{ticker}_{period}_stock_price_chart.png"

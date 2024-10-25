@@ -26,8 +26,23 @@ def main():
           + "1мес, 3мес, 6мес, 1г, 2г, 5г, 10л, с начала года, макс.")
 
     ticker = input("Введите тикер акции (например, «AAPL» для Apple Inc):»")
-    period = input("Введите период для данных (например, '1mo' для одного "
-                   + "месяца): ")
+
+    choice_period_format = 99
+    print("Выберете формат указания периода: \n1. диапазон дат (например: "
+          + "20.01.2018 - 21.01.2018) \nили \n2. значение (например: 3mo, 1y)")
+
+    period = ""
+    while choice_period_format not in [1, 2]:
+        choice_period_format = int(input())
+        if choice_period_format == 1:
+            start_period = input("Введите начало периода "
+                                 + "(например: 20.01.2024): ")
+            end_period = input("Введите окончания периода "
+                               + "(например: 20.02.2024): ")
+            period = start_period + "." + end_period
+        elif choice_period_format == 2:
+            period = input("Введите период для данных (например, '1mo' для "
+                           + "одного месяца): ")
 
     stock_data = dd.fetch_stock_data(ticker,
                                      period)

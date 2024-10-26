@@ -53,9 +53,12 @@ def main():
         dps.get_rsi(stock_data)
         dps.get_macd(stock_data)
 
+        selected_style = ds.select_style()
+
         ds.create_and_save_plot(stock_data,
                                 ticker,
-                                period)
+                                period,
+                                style_name=selected_style)
 
         ds.display_average_close_price(stock_data,
                                        period)
@@ -72,3 +75,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+

@@ -1,9 +1,6 @@
 import matplotlib.pyplot as plt
-import plotly.graph_objects as go
 import pandas as pd
-import numpy as np
 
-from plotly.subplots import make_subplots
 from plyer import notification
 
 from data_processing import (get_average_close_price,
@@ -13,7 +10,8 @@ from data_processing import (get_average_close_price,
 def create_and_save_plot(data,
                          ticker,
                          period,
-                         filename=None):
+                         filename=None,
+                         style_name: str = "default"):
     """
     Создает и сохраняет график цены акции за указанный период.
 
@@ -21,7 +19,8 @@ def create_and_save_plot(data,
         data: Данные по акциям;
         ticker: Тикер акции;
         period: Период выборки данных по акциям;
-        filename: Имя файла, в который сохранится график.
+        filename: Имя файла, в который сохранится график;
+        style_name: Стиль графика.
     """
     fig, axes = plt.subplots(3,
                              figsize=(10, 6))
@@ -56,10 +55,10 @@ def create_and_save_plot(data,
             data['Moving_Average'].values,
             label='Moving Average')
 
-        axes[0].title(f"{ticker} Цена акций с течением времени")
-        axes[0].xlabel("Дата")
-        axes[0].ylabel("Цена")
-        axes[0].legend()
+    axes[0].set_title(f"{ticker} Цена акций с течением времени")
+    axes[0].set_xlabel("Дата")
+    axes[0].set_ylabel("Цена")
+    axes[0].legend()
 
     if data['RSI_14'] is not None:
         axes[1].plot(
@@ -98,8 +97,27 @@ def create_and_save_plot(data,
     if filename is None:
         filename = f"{ticker}_{period}_stock_price_chart.png"
 
+    plt.style.use(style_name)
     plt.savefig(filename)
     print(f"График сохранен как {filename}")
+
+
+def print_style_variants():
+    for i, style in enumerate(plt.style.available):
+        print(str(i) + ". " + style)
+
+
+def select_style():
+    count_styles = len(plt.style.available)
+    selected_style = -1
+    while (not selected_style.is_integer()
+           or selected_style < 0
+           or selected_style > count_styles):
+        print("Выберите стиль графика:\n")
+        print_style_variants()
+        selected_style = int(input("Введите номер стиля: "))
+
+    return plt.style.available[selected_style]
 
 
 def display_average_close_price(stock_data,

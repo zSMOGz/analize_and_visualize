@@ -14,8 +14,7 @@ def fetch_stock_data(ticker,
         DataFrame: Данные о стоимости акции по тикеру.
     """
     stock = yf.Ticker(ticker)
-    if (len(period) == 2
-            or len(period) == 4):
+    if 2 <= len(period) <= 4:
         data = stock.history(period=period)
     elif len(period) == 21:
         periods = period.split('.')

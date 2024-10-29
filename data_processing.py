@@ -66,6 +66,22 @@ def get_rsi(data: DataFrame):
                 append=True)
 
 
+def get_standard_deviation(data: DataFrame):
+    """
+    Стандартное отклонение – это статистическая единица, которая
+    представляет собой вариацию данных, то есть отображает отклонение
+    значений данных от центрального значения (среднего значения данных).
+    Где length - длина скользящего окна.
+
+    Parameters:
+        data(DataFrame): Данные, по которым будет производиться
+            вычисление.
+    """
+    data.ta.stdev(close=data['Close'],
+                  length=14,
+                  append=True)
+
+
 def get_average_close_price(data: DataFrame) -> float:
     """
     Вычисление среднего значения по полю цены закрытия.

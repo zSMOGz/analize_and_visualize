@@ -22,7 +22,7 @@ def create_and_save_plot(data,
         filename: Имя файла, в который сохранится график;
         style_name: Стиль графика.
     """
-    fig, axes = plt.subplots(3,
+    fig, axes = plt.subplots(4,
                              figsize=(10, 6))
 
     if 'Date' not in data:
@@ -93,6 +93,14 @@ def create_and_save_plot(data,
             color='#000000'
         )
         axes[2].legend()
+    if data['STDEV_14'] is not None:
+        axes[3].plot(
+            data.index,
+            data['STDEV_14'].values,
+            label='Стандартное отклонение',
+            color='#ff9900'
+        )
+        axes[3].legend()
 
     if filename is None:
         filename = f"{ticker}_{period}_stock_price_chart.png"

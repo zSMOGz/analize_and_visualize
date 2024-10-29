@@ -52,6 +52,7 @@ def main():
 
         dps.get_rsi(stock_data)
         dps.get_macd(stock_data)
+        dps.get_standard_deviation(stock_data)
 
         selected_style = ds.select_style()
 

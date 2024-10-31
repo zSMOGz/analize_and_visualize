@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
+import plotly.express as px
 
 from plyer import notification
 
@@ -48,7 +49,7 @@ def create_and_save_plot(data,
         axes[0].plot(
             data['Date'],
             data['Close'].values,
-            label='Close Price')
+            label='Цена закрытия')
 
         axes[0].plot(
             data['Date'],
@@ -108,6 +109,14 @@ def create_and_save_plot(data,
     plt.style.use(style_name)
     plt.savefig(filename)
     print(f"График сохранен как {filename}")
+    plt.close()
+
+    fig = px.histogram(data,
+                       x="Moving_Average",
+                       title='Изменение среднего значения цены закрытия')
+    fig.update_layout(xaxis_title="Среднее значение",
+                      yaxis_title="Количество")
+    fig.show()
 
 
 def print_style_variants():
